@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poststck - Group Rekber</title>
     <style>
-        /* Desain dasar */
+        /* Desain Dasar */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -13,6 +13,7 @@
             background-color: #f0f0f0;
         }
 
+        /* Header */
         .header {
             background-color: #075e54; /* WhatsApp green */
             color: white;
@@ -21,7 +22,7 @@
             position: relative;
         }
 
-        /* Profil Bulat di Pojok Kanan Atas */
+        /* Profil Button */
         .profile-btn {
             position: absolute;
             top: 10px;
@@ -42,6 +43,116 @@
             border-radius: 50%;
         }
 
+        /* Video Call and Voice Call Buttons */
+        .call-btn {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            background-color: #128c7e; /* WhatsApp blue */
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .call-btn img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Video Feed Beranda */
+        .feed {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .video {
+            width: 100%;
+            max-width: 300px; /* Potret ukuran */
+            height: 500px;
+            background-color: #000;
+            margin-bottom: 10px;
+        }
+
+        .video video {
+            width: 100%;
+            height: 100%;
+        }
+
+        .post {
+            width: 100%;
+            max-width: 300px;
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post .post-header img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .post .post-content {
+            margin-top: 10px;
+        }
+
+        .post .post-footer {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .post .post-footer button {
+            background-color: #075e54;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .post .post-footer button:hover {
+            background-color: #128c7e;
+        }
+
+        /* Tombol Plus */
+        .add-post-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25d366;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .add-post-btn:hover {
+            background-color: #128c7e;
+        }
+
+        /* Pengaturan Profil */
         .settings {
             display: none;
             background-color: white;
@@ -52,74 +163,151 @@
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Reels */
-        .reels-container {
-            margin: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .reels-container video {
-            width: 300px;
-            max-height: 300px;
-        }
-
-        /* QRIS */
-        .qris-container {
+        /* QRIS dan Pembelian Centang Biru */
+        .qris-container, .payment-container {
             margin-top: 20px;
             text-align: center;
+        }
+
+        .payment-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .payment-container th, .payment-container td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        /* Form Daftar */
+        .registration-form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            margin: 50px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .registration-form button {
+            background-color: #075e54;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .registration-form button:hover {
+            background-color: #128c7e;
         }
     </style>
 </head>
 <body>
 
+<!-- Form Registrasi -->
+<div id="registration" class="registration-form">
+    <h2>Daftar Akun</h2>
+    <form id="registrationForm">
+        <label for="username">Nama Pengguna:</label>
+        <input type="text" id="username" name="username" required><br>
+
+        <label for="phone">Nomor Telepon:</label>
+        <input type="text" id="phone" name="phone" required><br>
+
+        <label for="code">Kode Verifikasi:</label>
+        <input type="text" id="code" name="code" required><br>
+
+        <button type="button" onclick="submitRegistration()">Daftar</button>
+    </form>
+</div>
+
 <!-- Header -->
-<div class="header">
+<div class="header" style="display:none;" id="header">
     <h1>Poststck</h1>
 
     <!-- Profil Button -->
     <div class="profile-btn" onclick="showProfileSettings()">
         <img src="profile.jpg" alt="Profile Picture">
     </div>
+
+    <!-- Call Buttons -->
+    <div class="call-btn" onclick="startVoiceCall()">
+        <img src="voice-call-icon.png" alt="Voice Call">
+    </div>
+    <div class="call-btn" onclick="startVideoCall()">
+        <img src="video-call-icon.png" alt="Video Call">
+    </div>
 </div>
 
+<!-- Video Feed (Beranda) -->
+<div class="feed" id="feed">
+    <div class="video">
+        <video controls>
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="post">
+        <div class="post-header">
+            <img src="profile.jpg" alt="User Avatar">
+            <span>zallkaltim</span>
+        </div>
+        <div class="post-content">
+            <p>Ini adalah contoh post pertama saya!</p>
+        </div>
+        <div class="post-footer">
+            <button>Like</button>
+            <button>Komentar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Tombol Plus untuk Menambah Post -->
+<div class="add-post-btn" onclick="showAddPostForm()">+</div>
+
 <!-- Settings (Pengaturan Profil) -->
-<div id="settings" class="settings">
+<div id="settings" class="settings" style="display:none;">
     <h2>Pengaturan Profil</h2>
     <form id="profileForm">
         <label for="username">Nama Pengguna:</label>
-        <input type="text" id="username" name="username" required><br>
+        <input type="text" id="profileUsername" name="username" required><br>
         <label for="bio">Bio:</label>
         <textarea id="bio" name="bio" required></textarea><br>
         <label for="profilePicture">Foto Profil:</label>
         <input type="file" id="profilePicture" accept="image/*"><br>
         <button type="button" onclick="saveProfile()">Simpan Profil</button>
     </form>
-
-    <!-- Pembelian Centang Biru -->
-    <div class="qris-container">
-        <h3>Beli Centang Biru</h3>
-        <p>Transfer ke nomor Dana atau gunakan QRIS untuk mendapatkan centang biru untuk nama pengguna Anda.</p>
-        <img src="qris.png" alt="QRIS" /> <!-- Ganti dengan QRIS kamu -->
-        <button class="buy-blue-check">Beli Centang Biru</button>
-    </div>
-</div>
-
-<!-- Video Reels -->
-<div class="reels-container">
-    <video controls>
-        <source src="video1.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <video controls>
-        <source src="video2.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
 </div>
 
 <!-- Script untuk Interaksi -->
 <script>
+    // Menampilkan Form Registrasi
+    function submitRegistration() {
+        const username = document.getElementById("username").value;
+        const phone = document.getElementById("phone").value;
+        const code = document.getElementById("code").value;
+
+        // Kirim data pengguna ke WhatsApp untuk verifikasi
+        const whatsappURL = `https://wa.me/6285246691849?text=Daftar:%20Nama%20Pengguna:%20${username}%20Nomor%20Telepon:%20${phone}%20Kode%20Verifikasi:%20${code}`;
+        window.open(whatsappURL, "_blank");
+
+        // Tampilkan halaman utama setelah registrasi
+        document.getElementById("registration").style.display = "none";
+        document.getElementById("header").style.display = "block";
+        document.getElementById("feed").style.display = "block";
+    }
+
     // Menampilkan Pengaturan Profil
     function showProfileSettings() {
         document.getElementById("settings").style.display = "block";
@@ -127,23 +315,32 @@
 
     // Fungsi untuk Menyimpan Profil
     function saveProfile() {
-        const username = document.getElementById("username").value;
+        const username = document.getElementById("profileUsername").value;
         const bio = document.getElementById("bio").value;
+        const profilePicture = document.getElementById("profilePicture").files[0];
 
-        if (username && bio) {
-            // Kirim data pengguna ke WhatsApp (gunakan URL WhatsApp API)
-            const whatsappURL = `https://wa.me/6285246691849?text=Nama%20Pengguna:%20${username}%20Bio:%20${bio}`;
-            window.open(whatsappURL, "_blank");
+        // Kirim data pengguna ke WhatsApp
+        const whatsappURL = `https://wa.me/6285246691849?text=Nama%20Pengguna:%20${username}%20Bio:%20${bio}`;
+        window.open(whatsappURL, "_blank");
 
-            // Menyimpan Profil di Web
-            document.getElementById("profileUsername").innerText = username;
-            document.getElementById("profileBio").innerText = bio;
-        }
+        // Menyimpan Profil di Web
+        document.getElementById("profileUsernameDisplay").textContent = username;
+        document.getElementById("bioDisplay").textContent = bio;
 
-        alert("Profil telah disimpan dan data telah dikirim ke WhatsApp.");
+        document.getElementById("settings").style.display = "none";
     }
 
-    // Fitur lainnya (seperti upload video, follow pengguna, dll)
+    // Start Voice Call
+    function startVoiceCall() {
+        alert("Mulai Panggilan Suara");
+        // Logika untuk panggilan suara bisa ditambahkan di sini menggunakan WebRTC
+    }
+
+    // Start Video Call
+    function startVideoCall() {
+        alert("Mulai Video Call");
+        // Logika untuk panggilan video bisa ditambahkan di sini menggunakan WebRTC
+    }
 </script>
 
 </body>
