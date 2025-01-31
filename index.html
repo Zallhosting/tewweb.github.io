@@ -23,6 +23,42 @@
             padding: 0;
         }
 
+        /* Intro Page */
+        #intro {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: var(--whatsapp-green);
+            flex-direction: column;
+        }
+
+        #intro img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+        }
+
+        #intro h2 {
+            color: var(--white);
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        #intro button {
+            background-color: var(--instagram-pink);
+            color: var(--white);
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #intro button:hover {
+            background-color: #D5006D;
+        }
+
         /* Header */
         header {
             background-color: var(--whatsapp-green);
@@ -152,24 +188,6 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        /* Preview Foto Profil */
-        #profilePicPreview {
-            max-width: 150px;
-            margin-top: 10px;
-            display: block;
-        }
-
-        /* Sambutan Pengguna */
-        .welcome-message {
-            background-color: var(--whatsapp-green);
-            color: var(--white);
-            padding: 20px;
-            margin-top: 20px;
-            text-align: center;
-            border-radius: 5px;
-            display: none;
-        }
-
         /* Profil Pengguna */
         .user-profile {
             padding: 20px;
@@ -184,73 +202,100 @@
             margin: 10px 0;
         }
 
-        /* Tombol Follow */
-        button.follow-btn {
-            background-color: var(--instagram-pink);
-            padding: 12px;
-            border: none;
-            color: var(--white);
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-            font-size: 16px;
+        /* QRIS & Pembelian Centang Biru */
+        .qris-container {
+            margin-top: 20px;
+            text-align: center;
         }
 
-        button.follow-btn:hover {
+        .qris-container img {
+            width: 150px;
+            height: 150px;
+        }
+
+        .buy-blue-check {
+            background-color: var(--instagram-pink);
+            color: var(--white);
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .buy-blue-check:hover {
             background-color: #D5006D;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Poststck</h1>
-    <div id="menu" onclick="openMenu()">&#x22EE;</div>
-    <div id="menu-content">
-        <button onclick="openSettings()">Pengaturan</button>
+<!-- Halaman Intro -->
+<div id="intro">
+    <img src="logo.png" alt="Poststck Logo"> <!-- Ganti dengan logo kamu -->
+    <h2>Selamat datang di Poststck!</h2>
+    <button onclick="enterSite()">Masuk</button>
+</div>
+
+<!-- Halaman Utama Setelah Masuk -->
+<div id="mainContent" style="display:none;">
+    <header>
+        <h1>Poststck</h1>
+        <div id="menu" onclick="openMenu()">&#x22EE;</div>
+        <div id="menu-content">
+            <button onclick="openSettings()">Pengaturan</button>
+        </div>
+    </header>
+
+    <!-- Pengaturan Profil -->
+    <div id="settings" class="settings">
+        <h2>Pengaturan Profil</h2>
+        <form id="profileForm">
+            <label for="username">Nama Pengguna:</label>
+            <input type="text" id="username" name="username" required><br>
+            <label for="bio">Bio:</label>
+            <textarea id="bio" name="bio" required></textarea><br>
+            <label for="profilePicture">Foto Profil:</label>
+            <input type="file" id="profilePicture" accept="image/*"><br>
+            <button type="button" onclick="saveProfile()">Simpan Profil</button>
+        </form>
+
+        <!-- Pembelian Centang Biru -->
+        <div class="qris-container">
+            <h3>Beli Centang Biru</h3>
+            <img src="qris.png" alt="QRIS" /> <!-- Ganti dengan QRIS kamu -->
+            <p>Transfer ke nomor Dana atau gunakan QRIS untuk mendapatkan centang biru untuk nama pengguna Anda.</p>
+            <button class="buy-blue-check">Beli Centang Biru</button>
+        </div>
     </div>
-</header>
 
-<!-- Pengaturan Profil -->
-<div id="settings" class="settings">
-    <h2>Pengaturan Profil</h2>
-    <form id="profileForm">
-        <label for="username">Nama Pengguna:</label>
-        <input type="text" id="username" name="username" required><br>
-        <label for="bio">Bio:</label>
-        <textarea id="bio" name="bio" required></textarea><br>
-        <label for="profilePicture">Foto Profil:</label>
-        <input type="file" id="profilePicture" accept="image/*"><br>
-        <button type="button" onclick="saveProfile()">Simpan Profil</button>
-    </form>
+    <!-- Grup Rekber -->
+    <div class="group-container">
+        <button class="create-group" onclick="createGroup()">+</button>
+        <div id="groupList"></div>
+    </div>
+
+    <!-- Profil Pengguna -->
+    <div id="userProfile" class="user-profile">
+        <h2>Profil Saya</h2>
+        <p><strong>Nama Pengguna:</strong> <span id="profileUsername">User123</span></p>
+        <p><strong>Bio:</strong> <span id="profileBio">Saya pengguna baru di Poststck.</span></p>
+        <button class="follow-btn" onclick="followUser()">Follow</button>
+        <button onclick="viewProfile()">Lihat Profil</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Poststck - Semua hak dilindungi</p>
+    </footer>
 </div>
-
-<!-- Sambutan Pengguna -->
-<div id="welcomeMessage" class="welcome-message">
-    <p>WELCOME! Selamat datang di Poststck! Web ini membantu Anda melakukan transaksi rekber dengan aman.</p>
-</div>
-
-<!-- Grup Rekber -->
-<div class="group-container">
-    <button class="create-group" onclick="createGroup()">+</button>
-    <div id="groupList"></div>
-</div>
-
-<!-- Profil Pengguna -->
-<div id="userProfile" class="user-profile">
-    <h2>Profil Saya</h2>
-    <p><strong>Nama Pengguna:</strong> <span id="profileUsername">User123</span></p>
-    <p><strong>Bio:</strong> <span id="profileBio">Saya pengguna baru di Poststck.</span></p>
-    <button class="follow-btn" onclick="followUser()">Follow</button>
-    <button onclick="viewProfile()">Lihat Profil</button>
-</div>
-
-<footer>
-    <p>&copy; 2025 Poststck - Semua hak dilindungi</p>
-</footer>
 
 <script>
+    // Fungsi untuk masuk ke website
+    function enterSite() {
+        document.getElementById("intro").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+    }
+
     // Menu Toggle
     function openMenu() {
         let menu = document.getElementById("menu-content");
@@ -268,56 +313,33 @@
         const bio = document.getElementById("bio").value;
         const profilePicture = document.getElementById("profilePicture").files[0];
 
-        // Simpan data pengguna di localStorage (sementara, nanti bisa terhubung ke database)
-        localStorage.setItem("username", username);
-        localStorage.setItem("bio", bio);
+        document.getElementById("profileUsername").innerText = username;
+        document.getElementById("profileBio").innerText = bio;
+        // Profil foto akan diproses lebih lanjut dengan file upload
 
-        alert("Profil berhasil disimpan!");
+        document.getElementById("settings").style.display = "none";
     }
 
-    // Fitur Create Group
+    // Fungsi untuk membuat grup rekber
     function createGroup() {
-        const groupName = prompt("Masukkan nama grup:");
-        if (groupName) {
-            const groupList = document.getElementById("groupList");
-            const groupDiv = document.createElement("div");
-            groupDiv.className = "group-item";
-            groupDiv.innerHTML = `<p>Grup: ${groupName}</p>`;
-            groupList.appendChild(groupDiv);
-        }
+        const groupList = document.getElementById("groupList");
+        const newGroup = document.createElement("div");
+        newGroup.classList.add("group-item");
+        newGroup.innerHTML = `
+            <h3>Grup Rekber Baru</h3>
+            <p>Deskripsi grup...</p>
+        `;
+        groupList.appendChild(newGroup);
     }
 
-    // Sambutan Pengguna
-    function displayWelcomeMessage() {
-        const welcomeMessage = document.getElementById("welcomeMessage");
-        welcomeMessage.style.display = "block";
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        displayWelcomeMessage();
-    });
-
-    // Fitur Follow
-    let following = false;
-
+    // Fitur follow pengguna
     function followUser() {
-        following = !following;
-        const followButton = document.querySelector('button[onclick="followUser()"]');
-        if (following) {
-            followButton.textContent = "Unfollow";
-            alert("Anda sekarang mengikuti pengguna ini.");
-        } else {
-            followButton.textContent = "Follow";
-            alert("Anda berhenti mengikuti pengguna ini.");
-        }
+        alert("Anda sekarang mengikuti pengguna ini.");
     }
 
+    // Lihat profil pengguna
     function viewProfile() {
-        if (following) {
-            alert("Menampilkan profil pengguna...");
-        } else {
-            alert("Anda harus follow pengguna ini terlebih dahulu.");
-        }
+        alert("Tampilkan profil pengguna.");
     }
 </script>
 
