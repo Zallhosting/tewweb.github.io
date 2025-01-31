@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poststck - Rekber</title>
+    <style>
+        /* Warna dasar tema (WhatsApp, Instagram, GitHub) */
+        :root {
+            --whatsapp-green: #25D366;
+            --instagram-pink: #E1306C;
+            --github-black: #333;
+            --white: #fff;
+            --light-gray: #f1f1f1;
+            --dark-gray: #333;
+        }
+
+        /* Pengaturan Umum */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--light-gray);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--whatsapp-green);
+            color: var(--white);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        /* Menu Button */
+        #menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        #menu-content {
+            display: none;
+            position: absolute;
+            background-color: var(--white);
+            top: 60px;
+            right: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #menu-content button {
+            background-color: var(--github-black);
+            color: var(--white);
+            padding: 10px;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        #menu-content button:hover {
+            background-color: #444;
+        }
+
+        /* Pengaturan Profil */
+        .settings {
+            display: none;
+            padding: 20px;
+            background-color: var(--white);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+
+        .settings form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .settings label, .settings textarea {
+            margin-bottom: 10px;
+        }
+
+        .settings input, .settings textarea {
+            padding: 12px;
+            border: 1px solid var(--dark-gray);
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: var(--whatsapp-green);
+            color: var(--white);
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #128C7E;
+        }
+
+        /* Tombol untuk Membuat Grup */
+        .create-group {
+            background-color: var(--instagram-pink);
+            color: var(--white);
+            border: none;
+            padding: 15px;
+            font-size: 32px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .create-group:hover {
+            background-color: #D5006D;
+        }
+
+        /* Grup Rekber */
+        .group-container {
+            margin: 20px;
+            padding: 10px;
+        }
+
+        .group-item {
+            background-color: var(--white);
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid var(--dark-gray);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Preview Foto Profil */
+        #profilePicPreview {
+            max-width: 150px;
+            margin-top: 10px;
+            display: block;
+        }
+
+        /* Sambutan Pengguna */
+        .welcome-message {
+            background-color: var(--whatsapp-green);
+            color: var(--white);
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            border-radius: 5px;
+            display: none;
+        }
+
+        /* Profil Pengguna */
+        .user-profile {
+            padding: 20px;
+            background-color: var(--white);
+            border: 1px solid var(--dark-gray);
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-profile p {
+            margin: 10px 0;
+        }
+
+        /* Tombol Follow */
+        button.follow-btn {
+            background-color: var(--instagram-pink);
+            padding: 12px;
+            border: none;
+            color: var(--white);
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        button.follow-btn:hover {
+            background-color: #D5006D;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Poststck</h1>
+    <div id="menu" onclick="openMenu()">&#x22EE;</div>
+    <div id="menu-content">
+        <button onclick="openSettings()">Pengaturan</button>
+    </div>
+</header>
+
+<!-- Pengaturan Profil -->
+<div id="settings" class="settings">
+    <h2>Pengaturan Profil</h2>
+    <form id="profileForm">
+        <label for="username">Nama Pengguna:</label>
+        <input type="text" id="username" name="username" required><br>
+        <label for="bio">Bio:</label>
+        <textarea id="bio" name="bio" required></textarea><br>
+        <label for="profilePicture">Foto Profil:</label>
+        <input type="file" id="profilePicture" accept="image/*"><br>
+        <button type="button" onclick="saveProfile()">Simpan Profil</button>
+    </form>
+</div>
+
+<!-- Sambutan Pengguna -->
+<div id="welcomeMessage" class="welcome-message">
+    <p>WELCOME! Selamat datang di Poststck! Web ini membantu Anda melakukan transaksi rekber dengan aman.</p>
+</div>
+
+<!-- Grup Rekber -->
+<div class="group-container">
+    <button class="create-group" onclick="createGroup()">+</button>
+    <div id="groupList"></div>
+</div>
+
+<!-- Profil Pengguna -->
+<div id="userProfile" class="user-profile">
+    <h2>Profil Saya</h2>
+    <p><strong>Nama Pengguna:</strong> <span id="profileUsername">User123</span></p>
+    <p><strong>Bio:</strong> <span id="profileBio">Saya pengguna baru di Poststck.</span></p>
+    <button class="follow-btn" onclick="followUser()">Follow</button>
+    <button onclick="viewProfile()">Lihat Profil</button>
+</div>
+
+<footer>
+    <p>&copy; 2025 Poststck - Semua hak dilindungi</p>
+</footer>
+
+<script>
+    // Menu Toggle
+    function openMenu() {
+        let menu = document.getElementById("menu-content");
+        menu.style.display = (menu.style.display === "block") ? "none" : "block";
+    }
+
+    // Pengaturan Profil
+    function openSettings() {
+        document.getElementById("settings").style.display = "block";
+    }
+
+    // Simpan Profil
+    function saveProfile() {
+        const username = document.getElementById("username").value;
+        const bio = document.getElementById("bio").value;
+        const profilePicture = document.getElementById("profilePicture").files[0];
+
+        // Simpan data pengguna di localStorage (sementara, nanti bisa terhubung ke database)
+        localStorage.setItem("username", username);
+        localStorage.setItem("bio", bio);
+
+        alert("Profil berhasil disimpan!");
+    }
+
+    // Fitur Create Group
+    function createGroup() {
+        const groupName = prompt("Masukkan nama grup:");
+        if (groupName) {
+            const groupList = document.getElementById("groupList");
+            const groupDiv = document.createElement("div");
+            groupDiv.className = "group-item";
+            groupDiv.innerHTML = `<p>Grup: ${groupName}</p>`;
+            groupList.appendChild(groupDiv);
+        }
+    }
+
+    // Sambutan Pengguna
+    function displayWelcomeMessage() {
+        const welcomeMessage = document.getElementById("welcomeMessage");
+        welcomeMessage.style.display = "block";
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        displayWelcomeMessage();
+    });
+
+    // Fitur Follow
+    let following = false;
+
+    function followUser() {
+        following = !following;
+        const followButton = document.querySelector('button[onclick="followUser()"]');
+        if (following) {
+            followButton.textContent = "Unfollow";
+            alert("Anda sekarang mengikuti pengguna ini.");
+        } else {
+            followButton.textContent = "Follow";
+            alert("Anda berhenti mengikuti pengguna ini.");
+        }
+    }
+
+    function viewProfile() {
+        if (following) {
+            alert("Menampilkan profil pengguna...");
+        } else {
+            alert("Anda harus follow pengguna ini terlebih dahulu.");
+        }
+    }
+</script>
+
+</body>
+</html>
